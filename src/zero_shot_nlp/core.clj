@@ -5,6 +5,12 @@
 
 (require-python '[transformers :bind-ns])
 
+(require '[clojure.pprint :as p])
+
+(use '[clojure.java.shell :only [sh]])
+
+;; (in-ns 'clojure.pprint)
+
 (defn -main
   "I classify stuff."
   [& args]
@@ -14,4 +20,16 @@
 
   (def labels ["breakfast" "lunch" "dinner"])
 
-  (classifier text labels))
+  (let [s (classifier text labels)]
+    (sh "sh" "-c" "jq . | tv" :in (clojure.data.json/pprint-json s))
+    )
+
+  ;; (p/write (classifier text labels))
+  ;; (let [out (java.io.StringWriter.)
+  ;;       s (classifier text labels)]
+  ;;   ;; (clojure.data.json/pprint-json)
+  ;;   ;; (p/pprint s out)
+  ;;   (p/pprint s out)
+  ;;   ;; (p/pprint {:c 3 :d 4} out)
+  ;;   (sh "sh" "-c" "jq . | tv" :in (.toString out)))
+  )
