@@ -20,9 +20,9 @@
 
   (def labels ["breakfast" "lunch" "dinner"])
 
-  (let [s (classifier text labels)]
-    (sh "sh" "-c" "jq . | tv" :in (clojure.data.json/pprint-json s))
-    )
+  (let [s (classifier text labels)
+        j (clojure.data.json/write-str s)]
+    (sh "sh" "-c" "jq . | tv" :in j))
 
   ;; (p/write (classifier text labels))
   ;; (let [out (java.io.StringWriter.)
